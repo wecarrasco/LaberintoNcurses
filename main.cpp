@@ -2,11 +2,19 @@
 
 int main()
 {	
-	initscr();			/* Start curses mode 		  */
-	printw("Hello World !!!");	/* Print Hello World		  */
-	refresh();			/* Print it on to the real screen */
-	getch();			/* Wait for user input */
-	endwin();			/* End curses mode		  */
+	initscr();							/* Start curses mode 		  */
+	raw();								/* Line buffering disabled	*/
+	keypad(stdscr, TRUE);				/* We get F1, F2 etc..		*/
+	noecho();		
+	printw("***MENU***");				/* Print Hello World		  */
+	printw("1) Iniciar juego");
+	printw("2) Salir");
+	refresh();							/* Print it on to the real screen */
+	int menu = getch();					/* Wait for user input */
+	printw("%d",menu-48);
+	getch();
+	endwin();							/* End curses mode		  */
+
 
 	return 0;
 }
