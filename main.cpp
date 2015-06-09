@@ -12,9 +12,9 @@ int main()
 	raw();								/* Line buffering disabled	*/
 	keypad(stdscr, TRUE);				/* We get F1, F2 etc..		*/
 	noecho();		
-	printw("***MENU***");				/* Print Hello World		  */
-	printw("1) Iniciar juego");
-	printw("2) Salir");
+	printw("***MENU***\n");				/* Print Hello World		  */
+	printw("1) Iniciar juego\n");
+	printw("2) Salir\n");
 	refresh();							/* Print it on to the real screen */
 	char menu = getch();
 	if (menu - 48 == 1)
@@ -35,7 +35,7 @@ int main()
 }*/
 
 void printTable(){
-	//initscr();
+	initscr();
 	srand(time(0));
 	printw("\n\n");
 	char tabla [15][15];
@@ -72,8 +72,8 @@ void printTable(){
 	}
 
 
-	int entrada = 0 + rand()%15;
-	int salida = 0 + rand()%15;
+	int entrada = 1 + rand()%14;
+	int salida = 1 + rand()%14;
 
 	tabla[entrada][0] = ' ';
 	tabla[salida][14] = ' ';
@@ -87,5 +87,5 @@ void printTable(){
 		printw("\n");
 	}
 
-
+	refresh();
 }
