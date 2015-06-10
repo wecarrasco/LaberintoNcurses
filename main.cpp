@@ -94,82 +94,89 @@ void printTable(){
 
 		switch(key)
 		{	case 'a':
-			
-			for (int i = 0; i < 15; i++)
-			{
-				for (int j = 0; j < 15; j++)
-				{
-					if (tabla[i][j] == '*')
-					{
-						x = i;
-						y = j;
-					}
-				}
-			}
-			tabla[x][y] = ' ';
-			tabla[x][y-1] = '*';
-			break;
-			case 'd':
-			//int x, y;
-			for (int i = 0; i < 15; i++)
-			{
-				for (int j = 0; j < 15; j++)
-				{
-					if (tabla[i][j] == '*')
-					{
-						x = i;
-						y = j;
-					}
-				}
-			}
-			tabla[x][y] = ' ';
-			tabla[x][y+1] = '*';
-			break;
-			case 'w':
-			//int x, y;
-			for (int i = 0; i < 15; i++)
-			{
-				for (int j = 0; j < 15; j++)
-				{
-					if (tabla[i][j] == '*')
-					{
-						x = i;
-						y = j;
-					}
-				}
-			}
-			tabla[x][y] = ' ';
-			tabla[x-1][y] = '*';
-			break;
-			case 's':
-			//int x, y;
-			for (int i = 0; i < 15; i++)
-			{
-				for (int j = 0; j < 15; j++)
-				{
-					if (tabla[i][j] == '*')
-					{
-						addch('h');
-						x = i;
-						y = j;
-					}
-				}
-			}
-			tabla[x][y] = ' ';
-			tabla[x+1][y] = '*';
-			break;	
-		}
-		clear();
+
 		for (int i = 0; i < 15; i++)
 		{
 			for (int j = 0; j < 15; j++)
 			{
-				printw("[%c]",tabla[i][j]);
+				if (tabla[i][j] == '*')
+				{
+					x = i;
+					y = j;
+				}
 			}
-			printw("\n");
 		}
-		printw("[%c]",key);
-	}
+		if (tabla[x][y-1] == '#')
+		{
+			tabla[x][y] = '*';
+			tabla [x][y-1] = '#';
+		}else{
+			tabla[x][y] = ' ';
+			tabla[x][y-1] = '*';
+		}
 
-	refresh();
+		break;
+		case 'd':
+			//int x, y;
+		for (int i = 0; i < 15; i++)
+		{
+			for (int j = 0; j < 15; j++)
+			{
+				if (tabla[i][j] == '*')
+				{
+					x = i;
+					y = j;
+				}
+			}
+		}
+		tabla[x][y] = ' ';
+		tabla[x][y+1] = '*';
+		break;
+		case 'w':
+			//int x, y;
+		for (int i = 0; i < 15; i++)
+		{
+			for (int j = 0; j < 15; j++)
+			{
+				if (tabla[i][j] == '*')
+				{
+					x = i;
+					y = j;
+				}
+			}
+		}
+		tabla[x][y] = ' ';
+		tabla[x-1][y] = '*';
+		break;
+		case 's':
+			//int x, y;
+		for (int i = 0; i < 15; i++)
+		{
+			for (int j = 0; j < 15; j++)
+			{
+				if (tabla[i][j] == '*')
+				{
+					addch('h');
+					x = i;
+					y = j;
+				}
+			}
+		}
+		tabla[x][y] = ' ';
+		tabla[x+1][y] = '*';
+		break;	
+	}
+	clear();
+	for (int i = 0; i < 15; i++)
+	{
+		for (int j = 0; j < 15; j++)
+		{
+			printw("[%c]",tabla[i][j]);
+		}
+		printw("\n");
+	}
+	printw("[%c]",key);
+}
+
+refresh();
 }
