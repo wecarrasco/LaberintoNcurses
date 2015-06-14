@@ -106,10 +106,10 @@ void printTable(){
 				}
 			}
 		}
-		if (tabla[x][y-1] == '#')
+		if (tabla[x][y-1] == '%')
 		{
 			tabla[x][y] = '*';
-			tabla [x][y-1] = '#';
+			tabla [x][y-1] = '%';
 		}else{
 			tabla[x][y] = ' ';
 			tabla[x][y-1] = '*';
@@ -129,8 +129,14 @@ void printTable(){
 				}
 			}
 		}
-		tabla[x][y] = ' ';
-		tabla[x][y+1] = '*';
+		if (tabla[x][y+1] == '%')
+		{
+			tabla[x][y] = '*';
+			tabla[x][y+1] = '%';
+		}else{
+			tabla[x][y] = ' ';
+			tabla[x][y+1] = '*';
+		}
 		break;
 		case 'w':
 			//int x, y;
@@ -145,8 +151,15 @@ void printTable(){
 				}
 			}
 		}
-		tabla[x][y] = ' ';
-		tabla[x-1][y] = '*';
+		if (tabla[x-1][y] == '%')
+		{
+			tabla[x][y] = '*';
+			tabla[x-1][y] = '%';
+		}else{
+			tabla[x][y] = ' ';
+			tabla[x-1][y] = '*';
+		}
+		
 		break;
 		case 's':
 			//int x, y;
@@ -162,8 +175,14 @@ void printTable(){
 				}
 			}
 		}
-		tabla[x][y] = ' ';
-		tabla[x+1][y] = '*';
+		if (tabla[x+1][y] == '%')
+		{
+			tabla[x][y] = '*';
+			tabla[x+1][y] = '%';
+		}else{
+			tabla[x][y] = ' ';
+			tabla[x+1][y] = '*';
+		}
 		break;	
 	}
 	clear();
