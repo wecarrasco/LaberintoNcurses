@@ -12,7 +12,7 @@ void bordeLaberinto(char**, int);
 void paredes(char**);
 void imprimir(char**);
 void borrar(char***);
-void bomba();
+void objeto(char**);
 
 int main(int argc, char const *argv[])
 {
@@ -24,48 +24,140 @@ int main(int argc, char const *argv[])
 	iniciarMatriz(tabla, 15);
 	bordeLaberinto(tabla, 15);
 	paredes(tabla);
+	objeto(tabla);
 
 	start_color();														//Iniciar
 	init_pair(1, COLOR_RED, COLOR_BLACK);										 //Modo
 	attron(COLOR_PAIR(1));															   //Color
 
 
-	mvprintw(10,30,"***MENU***\n");										//Menu		
+	mvprintw(10,30,"******MENU******\n");										//Menu		
 	mvprintw(11,30,"1) Iniciar juego\n");
 	mvprintw(12,30,"2) Salir\n");
 	
 
 	attroff(COLOR_PAIR(1));												//Apagar atributo de color
 	
-	clear();
-	imprimir(tabla);
+
 
 	refresh();
 	char menu = getch();
+
+	clear();
+	imprimir(tabla);
 	
 	if (menu - 48 == 1)
 	{
+		int x, y;
 		while(true){
 			char cursor = getch();
+
 			if (cursor == 'A')
 			{
-				printw("arriba");
+				//printw("arriba");
+
+				for (int i = 0; i < 15; i++)
+				{
+					for (int j = 0; j < 15; j++)
+					{
+						if (tabla[i][j] == '*')
+						{
+							x = i;
+							y = j;
+						}
+					}
+				}
+				if (tabla[x-1][y] == '%')
+				{
+					tabla[x][y] = '*';
+					tabla[x-1][y] = '%';
+				}else{
+					tabla[x][y] = ' ';
+					tabla[x-1][y] = '*';
+				}
+
 			}
-			if (cursor == 'B')
-			{
-				printw("abajo");
+			if (cursor == 'B'){
+				//printw("abajo");
+
+				for (int i = 0; i < 15; i++)
+				{
+					for (int j = 0; j < 15; j++)
+					{
+						if (tabla[i][j] == '*')
+						{
+							addch('h');
+							x = i;
+							y = j;
+						}
+					}
+				}
+				if (tabla[x+1][y] == '%')
+				{
+					tabla[x][y] = '*';
+					tabla[x+1][y] = '%';
+				}else{
+					tabla[x][y] = ' ';
+					tabla[x+1][y] = '*';
+				}
+
 			}
+
 			if (cursor == 'C')
 			{
-				printw("derecha");
+				//printw("derecha");
+
+				for (int i = 0; i < 15; i++)
+				{
+					for (int j = 0; j < 15; j++)
+					{
+						if (tabla[i][j] == '*')
+						{
+							x = i;
+							y = j;
+						}
+					}
+				}
+				if (tabla[x][y+1] == '%')
+				{
+					tabla[x][y] = '*';
+					tabla[x][y+1] = '%';
+				}else{
+					tabla[x][y] = ' ';
+					tabla[x][y+1] = '*';
+				}
+
 			}
 			if (cursor == 'D')
 			{
-				printw("izquierda");
+				for (int i = 0; i < 15; i++)
+				{
+					for (int j = 0; j < 15; j++)
+					{
+						if (tabla[i][j] == '*')
+						{
+							x = i;
+							y = j;
+						}
+					}
+				}
+				if (tabla[x][y-1] == '%')
+				{
+					tabla[x][y] = '*';
+					tabla [x][y-1] = '%';
+				}else{
+					tabla[x][y] = ' ';
+					tabla[x][y-1] = '*';
+				}
+
+				//printw("izquierda");
 			}
-			if(cursor == '['){
-				printw("escape");
+			if (cursor == 'x')
+			{
+				break;
 			}
+			clear();
+			imprimir(tabla);
 		}
 	}
 	endwin();
@@ -154,3 +246,15 @@ void paredes(char** tabla){
 		contador++;
 	}
 }//Fin de paredes
+
+void objeto(char** tabla){
+	for (int i = 0; i < 4; i++)
+	{
+		int x = 2 + rand()%12;
+		int y = 2 + rand()%12;
+		if (tabla[x][y] == ' ')
+		{
+			tabla[x][y] = '?';
+		}
+	}
+}
