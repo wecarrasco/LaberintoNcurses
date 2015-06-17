@@ -9,8 +9,9 @@ char** crearMatriz(int);
 void iniciarMatriz(char**, int);
 void crearLaberinto();
 void bordeLaberinto(char**, int);
-void imprimir();
-void borrar();
+void paredes(char**);
+void imprimir(char**);
+void borrar(char***);
 void bomba();
 
 int main(int argc, char const *argv[])
@@ -22,6 +23,7 @@ int main(int argc, char const *argv[])
 	tabla = crearMatriz(15);
 	iniciarMatriz(tabla, 15);
 	bordeLaberinto(tabla, 15);
+	paredes(tabla);
 
 	start_color();														//Iniciar
 	init_pair(1, COLOR_RED, COLOR_BLACK);										 //Modo
@@ -34,7 +36,9 @@ int main(int argc, char const *argv[])
 	
 
 	attroff(COLOR_PAIR(1));												//Apagar atributo de color
-
+	
+	clear();
+	imprimir(tabla);
 
 	refresh();
 	char menu = getch();
@@ -59,9 +63,13 @@ int main(int argc, char const *argv[])
 			{
 				printw("izquierda");
 			}
+			if(cursor == '['){
+				printw("escape");
+			}
 		}
 	}
 	endwin();
+	borrar(&tabla);
 	return 0;
 }
 
@@ -110,4 +118,39 @@ void bordeLaberinto(char** tabla, int size){
 			}
 		}
 	}
-}
+	int entrada = 1 + rand()%14;
+	int salida = 1 + rand()%14;
+
+	tabla[entrada][0] = '*';
+	tabla[salida][14] = ' ';
+}//Fin de bordeLaberinto
+
+void imprimir(char** tabla){
+	for (int i = 0; i < 15; i++)
+	{
+		for (int j = 0; j < 15; j++)
+		{
+			printw("[%c]",tabla[i][j]);
+		}
+		printw("\n");
+	}
+}//Fin de Imprimir
+
+void borrar(char*** tabla){
+	for (int i = 0; i < 15; i++){
+		delete[] (*tabla)[i];
+	}
+	delete[] *tabla;
+	*tabla=NULL;
+}//fin delete_maze
+
+void paredes(char** tabla){
+	int contador = 1;
+	while(contador < 50){
+		int x = 2 + rand()%12;
+		int y = 2 + rand()%12;
+		//printw("x: %d, y: %d \n",x,y);
+		tabla[x][y] = '%';
+		contador++;
+	}
+}//Fin de paredes
