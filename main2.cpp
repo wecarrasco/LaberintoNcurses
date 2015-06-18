@@ -8,7 +8,7 @@ using namespace std;
 char** crearMatriz(int);
 void iniciarMatriz(char**, int);
 void crearLaberinto();
-void bordeLaberinto(char**, int);
+void bordeLaberinto(char**, int, int, int);
 void paredes(char**);
 void imprimir(char**);
 void borrar(char***);
@@ -22,7 +22,9 @@ int main(int argc, char const *argv[])
 	char** tabla = NULL;												/*Matriz de Laberinto*/
 	tabla = crearMatriz(15);
 	iniciarMatriz(tabla, 15);
-	bordeLaberinto(tabla, 15);
+	int entrada = 1 + rand()%14;
+	int salida = 1 + rand()%14;
+	bordeLaberinto(tabla, 15, entrada, salida);
 	paredes(tabla);
 	objeto(tabla);
 
@@ -38,7 +40,7 @@ int main(int argc, char const *argv[])
 
 	attroff(COLOR_PAIR(1));												//Apagar atributo de color
 	
-
+	int objetos = 0;
 
 	refresh();
 	char menu = getch();
@@ -71,6 +73,17 @@ int main(int argc, char const *argv[])
 				{
 					tabla[x][y] = '*';
 					tabla[x-1][y] = '%';
+				}else if(tabla[x-1][y] == '?'){
+					objetos++;
+					tabla[x][y] = ' ';
+					tabla[x-1][y] = '*';
+				}else if( (tabla[x][15] == '*')  &&  (objetos == 4) ){
+					clear();
+					attron(COLOR_PAIR(1));
+					printw("GANADOR");
+					attroff(COLOR_PAIR(1));
+					getch();
+					break;
 				}else{
 					tabla[x][y] = ' ';
 					tabla[x-1][y] = '*';
@@ -96,6 +109,17 @@ int main(int argc, char const *argv[])
 				{
 					tabla[x][y] = '*';
 					tabla[x+1][y] = '%';
+				}else if(tabla[x+1][y] == '?'){
+					objetos++;
+					tabla[x][y] = ' ';
+					tabla[x+1][y] = '*';
+				}else if( (tabla[x][15] == '*') &&  (objetos == 4) ){
+					clear();
+					attron(COLOR_PAIR(1));
+					printw("GANADOR");
+					attroff(COLOR_PAIR(1));
+					getch();
+					break;
 				}else{
 					tabla[x][y] = ' ';
 					tabla[x+1][y] = '*';
@@ -122,6 +146,17 @@ int main(int argc, char const *argv[])
 				{
 					tabla[x][y] = '*';
 					tabla[x][y+1] = '%';
+				}else if(tabla[x][y+1] == '?'){
+					objetos++;
+					tabla[x][y] = ' ';
+					tabla[x][y+1] = '*';
+				}else if( (tabla[x][15] == '*') &&  (objetos == 4) ){
+					clear();
+					attron(COLOR_PAIR(1));
+					printw("GANADOR");
+					attroff(COLOR_PAIR(1));
+					getch();
+					break;
 				}else{
 					tabla[x][y] = ' ';
 					tabla[x][y+1] = '*';
@@ -144,7 +179,18 @@ int main(int argc, char const *argv[])
 				if (tabla[x][y-1] == '%')
 				{
 					tabla[x][y] = '*';
-					tabla [x][y-1] = '%';
+					tabla[x][y-1] = '%';
+				}else if(tabla[x][y-1] == '?'){
+					objetos++;
+					tabla[x][y] = ' ';
+					tabla[x][y-1] = '*';
+				}else if( (tabla[x][15] == '*') &&  (objetos == 4) ){
+					clear();
+					attron(COLOR_PAIR(1));
+					printw("GANADOR");
+					attroff(COLOR_PAIR(1));
+					getch();
+					break;
 				}else{
 					tabla[x][y] = ' ';
 					tabla[x][y-1] = '*';
@@ -187,7 +233,7 @@ void iniciarMatriz(char** tabla, int size){
 	}
 }//Fin iniciarMatriz
 
-void bordeLaberinto(char** tabla, int size){
+void bordeLaberinto(char** tabla, int size, int entrada, int salida){
 	for (int i = 0; i < size; i++)
 	{
 		for (int j = 0; j < size; j++)
@@ -210,8 +256,7 @@ void bordeLaberinto(char** tabla, int size){
 			}
 		}
 	}
-	int entrada = 1 + rand()%14;
-	int salida = 1 + rand()%14;
+
 
 	tabla[entrada][0] = '*';
 	tabla[salida][14] = ' ';
@@ -222,7 +267,13 @@ void imprimir(char** tabla){
 	{
 		for (int j = 0; j < 15; j++)
 		{
-			printw("[%c]",tabla[i][j]);
+			if (tabla[i][j] == '%')
+			{
+				printw("[%c]",tabla[i][j]);
+			}else{
+				printw(" %c ",tabla[i][j]);
+			}
+			
 		}
 		printw("\n");
 	}
@@ -247,14 +298,15 @@ void paredes(char** tabla){
 	}
 }//Fin de paredes
 
-void objeto(char** tabla){
-	for (int i = 0; i < 4; i++)
-	{
+void objeto(char** tabla){	
+	int a = 0;
+	while (a < 4){
 		int x = 2 + rand()%12;
 		int y = 2 + rand()%12;
 		if (tabla[x][y] == ' ')
 		{
 			tabla[x][y] = '?';
+			a++;
 		}
 	}
 }
